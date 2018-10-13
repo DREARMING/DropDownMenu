@@ -1,4 +1,4 @@
-package com.mvcoder.dropdownmenudemo;
+package com.mvcoder.dropdownmenu;
 
 import org.junit.Test;
 

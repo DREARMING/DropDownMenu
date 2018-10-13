@@ -1,4 +1,4 @@
-package com.mvcoder.dropdownmenudemo;
+package com.mvcoder.dropdownmenu;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
