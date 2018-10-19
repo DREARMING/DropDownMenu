@@ -26,6 +26,14 @@ public abstract class SimpleTextAdapter<T> extends BaseBaseAdapter<T> {
 
     public static class FilterItemHolder {
         FilterCheckedTextView checkedTextView;
+
+        public FilterCheckedTextView getCheckedTextView() {
+            return checkedTextView;
+        }
+
+        public void setCheckedTextView(FilterCheckedTextView checkedTextView) {
+            this.checkedTextView = checkedTextView;
+        }
     }
 
     @Override
@@ -47,7 +55,7 @@ public abstract class SimpleTextAdapter<T> extends BaseBaseAdapter<T> {
 
         T t = list.get(position);
         holder.checkedTextView.setText(provideText(t));
-
+        onBindViewHolder(position, t, holder);
         return convertView;
     }
 
@@ -56,5 +64,8 @@ public abstract class SimpleTextAdapter<T> extends BaseBaseAdapter<T> {
     protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
     }
 
+    protected void onBindViewHolder(int position, T item,  FilterItemHolder holder){
+
+    }
 
 }
