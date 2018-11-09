@@ -11,7 +11,6 @@ import android.widget.ListView;
 
 import com.mvcoder.filter.adapter.BaseBaseAdapter;
 import com.mvcoder.filter.interfaces.OnFilterItemClickListener;
-import com.mvcoder.filter.util.CommonUtil;
 import com.mvcoder.filter.util.UIUtil;
 
 import java.util.List;
@@ -79,9 +78,10 @@ public class SingleGridView<DATA> extends GridView implements AdapterView.OnItem
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (CommonUtil.isFastDoubleClick()) {
+        /*if (CommonUtil.isFastDoubleClick()) {
+
             return;
-        }
+        }*/
 
         DATA item = mAdapter.getItem(position);
 

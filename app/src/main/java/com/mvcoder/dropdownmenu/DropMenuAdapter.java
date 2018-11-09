@@ -1,8 +1,15 @@
 package com.mvcoder.dropdownmenu;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.mvcoder.dropdownmenu.bean.ClassBuilding;
 import com.mvcoder.dropdownmenu.bean.Floor;
@@ -11,12 +18,14 @@ import com.mvcoder.filter.adapter.MenuAdapter;
 import com.mvcoder.filter.adapter.SimpleTextAdapter;
 import com.mvcoder.filter.interfaces.OnFilterDoneListener;
 import com.mvcoder.filter.interfaces.OnFilterItemClickListener;
+import com.mvcoder.filter.typeview.SingleGridView;
 import com.mvcoder.filter.typeview.SingleListView;
 import com.mvcoder.filter.typeview.TripleListView;
 import com.mvcoder.filter.util.UIUtil;
 import com.mvcoder.filter.view.FilterCheckedTextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -100,14 +109,86 @@ public class DropMenuAdapter implements MenuAdapter {
                 view = createTripleListView();
                 break;
             case 2:
-                view = createSingleListView(position,list);
+                view = createGridView();
                 break;
             case 3:
-                view = createSingleListView(position,list);
+                view = createGridView();
                 break;
         }
 
         return view;
+    }
+
+    private View createGridView(){
+        final Map<Long, ClassBuilding> map = new HashMap<>();
+        final SingleGridView<ClassBuilding> gridView = new SingleGridView<ClassBuilding>(mContext);
+        gridView.adapter(new SimpleTextAdapter<ClassBuilding>(null, mContext) {
+                    @Override
+                    public String provideText(ClassBuilding classBuilding) {
+                        return classBuilding.getBuildingName();
+                    }
+
+                    @Override
+                    protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
+                        //super.initCheckedTextView(checkedTextView);
+                        checkedTextView.setPadding(0, UIUtil.dp(context, 3), 0, UIUtil.dp(context, 3));
+                        checkedTextView.setGravity(Gravity.CENTER);
+                        checkedTextView.setBackgroundResource(R.drawable.selector_filter_grid);
+                    }
+
+                    @Override
+                    protected void onBindViewHolder(int position, ClassBuilding item, FilterItemHolder holder) {
+                        super.onBindViewHolder(position, item, holder);
+                    }
+                }).onItemClick(new OnFilterItemClickListener<ClassBuilding>() {
+                    @Override
+                    public void onItemClick(ClassBuilding classBuilding, int i) {
+                        long buildingId = classBuilding.getId();
+                        if(map.get(buildingId) == null){
+                            map.put(buildingId, classBuilding);
+                            //gridView.setItemChecked(i, true);
+                        }else{
+                            map.remove(buildingId);
+                            //gridView.setItemChecked(i, false);
+                        }
+                        System.out.println("touch classBuilding : " + classBuilding.getBuildingName());
+                    }
+                });
+        gridView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+
+        gridView.setList(getBuildingList(), -1);
+
+        Button button = new Button(mContext);
+        button.setText("确定");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringBuilder builder = new StringBuilder();
+                for(Long key : map.keySet()){
+                    builder.append(map.get(key).getBuildingName());
+                    builder.append(",");
+                }
+                System.out.println("select : " + builder.toString());
+                Toast.makeText(mContext, "queding", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        int padding = UIUtil.dp(mContext, 15);
+        button.setTextColor(Color.WHITE);
+        button.setBackgroundColor(Color.BLUE);
+        System.out.println("padding : " + padding);
+        LinearLayout.LayoutParams buttonLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        buttonLP.setMargins(padding,padding,padding,padding);
+        button.setLayoutParams(buttonLP);
+
+        LinearLayout linearLayout = new LinearLayout(mContext);
+        linearLayout.setBackgroundColor(Color.WHITE);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        linearLayout.setLayoutParams(layoutParams);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(gridView);
+        linearLayout.addView(button);
+        return linearLayout;
     }
 
  /*   private int mLeftSelectPos = 0;
