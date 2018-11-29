@@ -17,7 +17,7 @@ To get a Git project into your build:
 
 ```
 	dependencies {
-	        implementation 'com.github.DREARMING:DropDownMenu:1.1.1'
+	        implementation 'com.github.DREARMING:DropDownMenu:1.1.2'
 	}
 ```
 
