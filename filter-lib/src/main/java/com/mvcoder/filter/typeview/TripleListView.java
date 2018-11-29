@@ -182,10 +182,9 @@ public class TripleListView<LEFTD, CENTERD, RIGHTD> extends LinearLayout impleme
                 if (CommonUtil.isEmpty(centerdList)) {
                     //当前点的就是这个条目
                     mLeftLastCheckedPosition = -1;
-                }else{
-                    if(lv_right.getVisibility() == VISIBLE){
-                        lv_right.setVisibility(INVISIBLE);
-                    }
+                }
+                if(lv_right.getVisibility() == VISIBLE){
+                    lv_right.setVisibility(INVISIBLE);
                 }
             }
 
