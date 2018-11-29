@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/selector_filter_left"
     android:enabled="true"
-    android:gravity="center_vertical"
+    android:gravity="center"
     android:paddingBottom="15dp"
     android:paddingTop="15dp"
     android:textColor="@drawable/selector_tv_filter"

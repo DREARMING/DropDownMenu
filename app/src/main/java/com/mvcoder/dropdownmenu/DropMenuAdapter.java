@@ -206,9 +206,7 @@ public class DropMenuAdapter implements MenuAdapter {
 
                     @Override
                     protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
-                        int dp = UIUtil.dp(mContext, 15);
                         checkedTextView.setBackground(null);
-                        checkedTextView.setPadding(dp, dp, 0, dp);
                     }
 
                     @Override
@@ -218,15 +216,12 @@ public class DropMenuAdapter implements MenuAdapter {
                 }).centerAdapter(new SimpleTextAdapter<Floor>(null, mContext) {
                     @Override
                     public String provideText(Floor floor) {
-
                         return floor.getFloorName();
                     }
 
                     @Override
                     protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
                         checkedTextView.setBackground(null);
-                        int dp = UIUtil.dp(mContext, 15);
-                        checkedTextView.setPadding(dp, dp, 0, dp);
                     }
 
                 }).rightAdapter(new SimpleTextAdapter<Room>(null, mContext) {
@@ -238,8 +233,6 @@ public class DropMenuAdapter implements MenuAdapter {
                     @Override
                     protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
                         checkedTextView.setBackground(null);
-                        int dp = UIUtil.dp(mContext, 15);
-                        checkedTextView.setPadding(dp, dp, 0, dp);
                     }
 
                 }).onLeftItemClickListener(new TripleListView.OnLeftItemClickListener<ClassBuilding, Floor>() {

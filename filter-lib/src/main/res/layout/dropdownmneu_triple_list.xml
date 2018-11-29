@@ -14,17 +14,19 @@
 
         <ListView
             android:id="@+id/dropdown_triple_lv_left"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:divider="@null"
             android:dividerHeight="0px"
             android:scrollbars="none" />
 
         <ListView
             android:id="@+id/dropdown_triple_lv_center"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:divider="@null"
+            android:layout_weight="1"
             android:dividerHeight="0px"
             android:scrollbars="none"
             android:layoutAnimation="@anim/dropdownmenu_list_item_layout_animation"
@@ -32,8 +34,9 @@
 
         <ListView
             android:id="@+id/dropdown_triple_lv_right"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:divider="@null"
             android:dividerHeight="0px"
             android:layoutAnimation="@anim/dropdownmenu_list_item_layout_animation"
