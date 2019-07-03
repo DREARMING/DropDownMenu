@@ -48,7 +48,7 @@ public class DropDownMenu extends RelativeLayout implements View.OnClickListener
         init(context);
     }
 
-    private void init(Context context) {
+    protected void init(Context context) {
         setBackgroundColor(Color.WHITE);
     }
 
@@ -58,13 +58,17 @@ public class DropDownMenu extends RelativeLayout implements View.OnClickListener
         setContentView(findViewById(R.id.mFilterContentView));
     }
 
+    protected FixedTabIndicator getFixedTabIndicator(){
+        return new FixedTabIndicator(getContext());
+    }
+
     public void setContentView(View contentView) {
         removeAllViews();
 
         /*
          * 1.顶部筛选条
          */
-        fixedTabIndicator = new FixedTabIndicator(getContext());
+        fixedTabIndicator = getFixedTabIndicator();//new FixedTabIndicator(getContext());
         fixedTabIndicator.setId(R.id.fixedTabIndicator);
         addView(fixedTabIndicator, -1, UIUtil.dp(getContext(), 50));
 

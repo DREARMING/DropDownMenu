@@ -5,4 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="comment_divider">#cccccc</color>
+
+    <color name="textSelectColor">#5dffff</color>
+    <color name="colorPrimaryDark2">#011230</color>
 </resources>

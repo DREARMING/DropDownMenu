@@ -31,21 +31,24 @@ public class FixedTabIndicator extends LinearLayout {
      * 分割线
      */
     private Paint mDividerPaint;
-    private int mDividerColor = 0xff000000;// 分割线颜色
-    private int mDividerPadding = 13;// 分割线距离上下padding
+    protected int mDividerColor = 0xff000000;// 分割线颜色
+    protected int mDividerPadding = 13;// 分割线距离上下padding
 
     /*
      * 上下两条线
      */
-    private Paint mLinePaint;
-    private float mLineHeight = 1;
-    private int mLineColor = 0xff000000;
+    protected Paint mLinePaint;
+    protected float mLineHeight = 1;
+    protected int mLineColor = 0xff000000;
+
+    protected boolean drawTopBottomLines = true;
+    protected boolean drawableDividerLines = true;
 
 
-    private int mTabTextSize = 13;// 指针文字的大小,sp
-    private int mTabDefaultColor = 0xFF666666;// 未选中默认颜色
-    private int mTabSelectedColor = 0xFF008DF2;// 指针选中颜色
-    private int drawableRight = 10;
+    protected int mTabTextSize = 13;// 指针文字的大小,sp
+    protected int mTabDefaultColor = 0xFF666666;// 未选中默认颜色
+    protected int mTabSelectedColor = 0xFF008DF2;// 指针选中颜色
+    protected int drawableRight = 10;
 
     private int measureHeight;
     private int measuredWidth;
@@ -62,12 +65,14 @@ public class FixedTabIndicator extends LinearLayout {
 
     public FixedTabIndicator(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        this.context = context;
+        init();
     }
 
     public FixedTabIndicator(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context);
+        this.context = context;
+        init();
     }
 
 
@@ -89,8 +94,7 @@ public class FixedTabIndicator extends LinearLayout {
         this.mOnItemClickListener = itemClickListenner;
     }
 
-    private void init(Context context) {
-        this.context = context;
+    protected void init() {
         setOrientation(LinearLayout.HORIZONTAL);
         setBackgroundColor(Color.WHITE);
         setWillNotDraw(false);
@@ -118,21 +122,24 @@ public class FixedTabIndicator extends LinearLayout {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        for (int i = 0; i < mTabCount - 1; ++i) {// 分割线的个数比tab的个数少一个
-            final View child = getChildAt(i);
-            if (child == null || child.getVisibility() == View.GONE) {
-                continue;
-            }
+        if(drawableDividerLines) {
+            for (int i = 0; i < mTabCount - 1; ++i) {// 分割线的个数比tab的个数少一个
+                final View child = getChildAt(i);
+                if (child == null || child.getVisibility() == View.GONE) {
+                    continue;
+                }
 
-            canvas.drawLine(child.getRight(), mDividerPadding, child.getRight(), measureHeight - mDividerPadding, mDividerPaint);
+                canvas.drawLine(child.getRight(), mDividerPadding, child.getRight(), measureHeight - mDividerPadding, mDividerPaint);
+            }
         }
 
+        if(drawTopBottomLines) {
+            //上边黑线
+            canvas.drawRect(0, 0, measuredWidth, mLineHeight, mLinePaint);
 
-        //上边黑线
-        canvas.drawRect(0, 0, measuredWidth, mLineHeight, mLinePaint);
-
-        //下边黑线
-        canvas.drawRect(0, measureHeight - mLineHeight, measuredWidth, measureHeight, mLinePaint);
+            //下边黑线
+            canvas.drawRect(0, measureHeight - mLineHeight, measuredWidth, measureHeight, mLinePaint);
+        }
     }
 
     /**
@@ -221,14 +228,9 @@ public class FixedTabIndicator extends LinearLayout {
         return (TextView) ((ViewGroup) getChildAt(pos)).getChildAt(0);
     }
 
-    /**
-     * 直接用TextView使用weight不能控制图片，需要用用父控件包裹
-     */
-    private View generateTextView(String title, int pos) {
-        // 子空间TextView
+    protected TextView getTextView(){
         TextView tv = new TextView(context);
         tv.setGravity(Gravity.CENTER);
-        tv.setText(title);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTabTextSize);
         tv.setTextColor(mTabDefaultColor);
         tv.setSingleLine();
@@ -237,6 +239,16 @@ public class FixedTabIndicator extends LinearLayout {
         Drawable drawable = getResources().getDrawable(R.drawable.level_filter);
         tv.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
         tv.setCompoundDrawablePadding(drawableRight);
+        return tv;
+    }
+
+    /**
+     * 直接用TextView使用weight不能控制图片，需要用用父控件包裹
+     */
+    private View generateTextView(String title, int pos) {
+        // 子空间TextView
+        TextView tv = getTextView();
+        tv.setText(title);
 
         // 将TextView添加到父控件RelativeLayout
         RelativeLayout rl = new RelativeLayout(context);
